@@ -37,6 +37,7 @@ lightcolors = (LIGHTBLUE, LIGHTGREEN, LIGHTRED, LIGHTYELLOW)
 assert len(colors) == len(lightcolors)
 t_width = 5
 t_height = 5
+score=0
 
 S_SHAPE_TEMPLATE = [['.....',             
                      '.....',
@@ -159,11 +160,13 @@ def main():
     pygame.display.set_caption('Tetris Remastered')
     display_text('Tetris Remastered')
     while True:
-        run_game()
+        score=run_game()
         #pygame.mixer.music.stop()
         display_text('Game Over')
 
+
 def run_game():
+    global score
     board = displayblankboard()
     lmdt = time.time()
     lmst = time.time()
@@ -286,8 +289,10 @@ def run_game():
 
 
 def end_game():
+        global score
         pygame.quit()
         sys.exit()
+        update_score(score)
 
 
 def text_obj(text, font, color):
@@ -437,6 +442,13 @@ def drstat(score,lvl):
     lvlrect=lvlsurf.get_rect()
     lvlrect.topleft=(w_width-150,50)
     gamewindow.blit(lvlsurf,lvlrect)
+
+
+def update_score(score):
+    fil=open("scores.data","r+")
+    fil.write(str(score))
+    fil.close()
+
     
 
 def drpiece(piece,px=None,py=None):
